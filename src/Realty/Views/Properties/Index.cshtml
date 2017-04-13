@@ -1,0 +1,232 @@
+﻿@model PropertiesViewModel
+
+@{
+   var isRealtor = ViewBag.CurrentUser.IsRealtor;
+   var isAdmin = ViewBag.CurrentUser.IsAdmin;
+}
+
+<div class="wrapper wrapper-content animated fadeIn ecommerce">
+  <div class="ibox-content m-b-sm border-bottom">
+    <span class="text-muted small pull-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12/02/2016</span>
+    <h2>Properties</h2>
+    <p>Contains the list of all registered properties.</p>
+  </div>
+
+  <div class="ibox-content m-b-sm border-bottom">
+    <form asp-action="FilteredIndex" method="post" role="form">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label asp-for="PropertyTypeId" class="control-label">Property type</label>
+            <select asp-for="PropertyTypeId" asp-items="ViewBag.PropertyTypes" class="form-control">
+              <option selected value="">&lt;select&gt;</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label asp-for="PropertyStyleId" class="control-label">Property style</label>
+            <select asp-for="PropertyStyleId" asp-items="ViewBag.PropertyStyles" class="form-control">
+              <option selected value="">&lt;select&gt;</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label" asp-for="MinFloorFootage">Min Floor footage</label>
+            <input type="text" asp-for="MinFloorFootage" class="form-control" max="5">
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <button type="submit" class="btn btn-success" style="margin-top: 22px; width: 140px;">Apply Filter</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label asp-for="CountryId" class="control-label">Country</label>
+            <select asp-for="CountryId" asp-items="ViewBag.Countries" class="form-control">
+              <option selected value="">&lt;select&gt;</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label asp-for="City" class="control-label">City</label>
+            <input asp-for="City" class="form-control" maxlength="64" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label asp-for="MinYearBuilt" class="control-label">Min Year built</label>
+            <input asp-for="MinYearBuilt" type="text" class="form-control" maxlength="4" style="max-width: 100px;">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+        <div class="ibox-content border-bottom">
+          <div class="clients-list">
+            <ul class="nav nav-tabs">
+              @if(isRealtor || isAdmin)
+              {
+                <span class="pull-right small text-muted">@($"Total records: {Model.Properties.Count()}")</span>
+                <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-list-ol"></i> All Properties</a></li>
+                <li><a data-toggle="tab" href="#tab-2"><i class="fa fa-list-alt"></i> My Properties</a></li>
+              }
+              else
+              {
+                <li class="active"><a data-toggle="tab" href="#tab-2"><i class="fa fa-list-alt"></i> My Properties</a></li>
+              }
+            </ul>
+
+            <div class="tab-content">
+              @if(isRealtor || isAdmin)
+              {
+                <div id="tab-1" class="tab-pane active">
+                  <div class="full-height-scroll">
+                    <div class="table-responsive">
+                      <table class="footable table table-striped table-hover toggle-arrow-tiny" data-page-size="15">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Style</th>
+                            <th>Year</th>
+                            <th>Floor</th>
+                            <th>Lot</th>
+                            <th>Beds</th>
+                            <th>Baths</th>
+                            <th>Parking</th>
+                            <th>Basement</th>
+                            <th>Address</th>
+                            <th>Owner</th>
+                            <th class="text-center">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach(var property in Model.Properties)
+                          {
+                            <tr>
+                              <td>@property.Id</td>
+                              <td>@property.PropertyType.Name</td>
+                              <td>@property.PropertyStyle.Name</td>
+                              <td>@property.YearBuilt</td>
+                              <td>@property.FloorFootage</td>
+                              <td>@property.LotFootage</td>
+                              <td>@property.BedroomsCount</td>
+                              <td>@property.BathroomsCount</td>
+                              <td>@property.ParkingSpacesCount</td>
+                              <td>@property.BasementType.Name</td>
+                              <td>
+                                <a href="@property.PropertyAddressUrl" target="_blank"><i class="fa fa-map-marker"></i></a>
+                                @property.Address.FullAddress
+                              </td>
+                              <td>@property.Owner.Person.FullName</td>
+                              @if(isRealtor || isAdmin)
+                              {
+                                <td style="min-width: 190px;">
+                                  <form asp-action="Destroy" method="post" asp-route-propertyId="@property.Id">
+                                    <a class="btn btn-success btn-xs" asp-controller="Listings" asp-action="New" asp-route-propertyId="@property.Id">
+                                      New Listing
+                                    </a>
+                                    <a class="btn btn-info btn-xs" asp-action="Edit" asp-route-propertyId="@property.Id">Edit</a>
+                                    @if(isAdmin)
+                                    {
+                                      <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                    }
+                                  </form>
+                                </td>
+                              }
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              @{ var active = !isAdmin && !isRealtor ? "active" : ""; }
+
+
+              <div id="tab-2" class="tab-pane @active">
+                <div class="full-height-scroll">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                      <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Style</th>
+                        <th>Year</th>
+                        <th>Floor</th>
+                        <th>Lot</th>
+                        <th>Beds</th>
+                        <th>Baths</th>
+                        <th>Parking</th>
+                        <th>Basement</th>
+                        <th>Address</th>
+                        <th>Owner</th>
+                        <th class="text-center">Action</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      @foreach(var property in Model.MyProperties)
+                      {
+                        <tr>
+                          <td>@property.Id</td>
+                          <td>@property.PropertyType.Name</td>
+                          <td>@property.PropertyStyle.Name</td>
+                          <td>@property.YearBuilt</td>
+                          <td>@property.FloorFootage</td>
+                          <td>@property.LotFootage</td>
+                          <td>@property.BedroomsCount</td>
+                          <td>@property.BathroomsCount</td>
+                          <td>@property.ParkingSpacesCount</td>
+                          <td>@property.BasementType.Name</td>
+                          <td>
+                            <a href="@property.PropertyAddressUrl" target="_blank"><i class="fa fa-map-marker"></i></a>
+                            @property.Address.FullAddress
+                          </td>
+                          <td>@property.Owner.Person.FullName</td>
+                          @if(isRealtor || isAdmin)
+                          {
+                            <td style="min-width: 190px;">
+                              <form asp-action="Destroy" method="post" asp-route-propertyId="@property.Id">
+                                <a class="btn btn-success btn-xs" asp-controller="Listings" asp-action="New" asp-route-propertyId="@property.Id">
+                                  New Listing
+                                </a>
+                                <a class="btn btn-info btn-xs" asp-action="Edit" asp-route-propertyId="@property.Id">Edit</a>
+                                @if(isAdmin)
+                                {
+                                  <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                }
+                              </form>
+                            </td>
+                          }
+                        </tr>
+                      }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

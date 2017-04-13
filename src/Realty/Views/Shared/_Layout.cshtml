@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>Realty</title>
+  <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="~/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+  <link href="~/lib/animate-css/animate.css" rel="stylesheet">
+  <link href="~/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="wrapper">
+    @Html.Partial("_SideBar")
+
+    <div id="page-wrapper" class="gray-bg">
+      @Html.Partial("_TopNavbar")
+
+      @RenderBody()
+
+      @Html.Partial("_Footer")
+    </div>
+  </div>
+
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/jqueri-ui/jquery-ui.min.js"></script>
+  <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="~/lib/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="~/lib/slimscroll/jquery.slimscroll.min.js"></script>
+  <script src="~/lib/pace/pace.min.js"></script>
+  <script src="~/lib/footable/compiled/footable.min.js"></script>
+  <script src="~/js/inspinia.js"></script>
+  <script src="~/js/validation.js"></script>
+  <script src="~/js/realty.js"></script>
+</body>
+</html>

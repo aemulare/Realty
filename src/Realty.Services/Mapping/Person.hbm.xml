@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Person class
+  NHibernate mapping file
+-->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+  namespace="Realty.Models" assembly="Realty" default-lazy="false">
+  <class name="Person" table="dbo.persons">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <property name="FirstName" column="first_name" type="String"/>
+    <property name="MiddleName" column="middle_name" type="String"/>
+    <property name="LastName" column="last_name" type="String"/>
+    <property name="DateOfBirth" column="dob" type="DateTime"/>
+    <property name="TaxId" column="tax_id" type="String"/>
+    <property name="PhotoId" column="photo_id" type="String"/>
+    <property name="Company" column="company_name" type="String"/>
+    <property name="Occupation" column="occupation" type="String"/>
+    <property name="Phone" column="phone_number" type="String"/>
+    <property name="Fax" column="fax_number" type="String"/>
+    <property name="Email" column="email" type="String"/>
+    <property name="Photo" column="photo" type="String"/>
+    
+    <many-to-one name="Address" column="address_id" class="Address"
+      fetch="join" not-found="exception" cascade="all"/>
+  </class>
+</hibernate-mapping>

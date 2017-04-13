@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Sale class
+  NHibernate mapping file
+-->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+  namespace="Realty.Models" assembly="Realty" default-lazy="false">
+  <class name="Sale" table="dbo.sales">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <property name="SoldAt" column="sold_at" type="DateTime"/>
+    <property name="RealtorFee" column="realtor_fee" type="Decimal"/>
+
+    <many-to-one name="Offer" column="offer_id" class="Offer"
+      fetch="join" not-found="exception" cascade="none"/>
+  </class>
+</hibernate-mapping>

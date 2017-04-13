@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  User class 
+  NHibernate mapping file
+-->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+  namespace="Realty.Models" assembly="Realty" default-lazy="false">
+  <class name="User" table="dbo.users">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <property name="Login" column="login" type="String"/>
+    <property name="Password" column="password_digest" type="String"/>
+    <property name="IsActive" column="is_active" type="Boolean"/>
+    <property name="IsAdmin" column="is_admin" type="Boolean"/>
+    <property name="IsRealtor" column="is_realtor" type="Boolean"/>
+
+    <many-to-one name="Person" column="person_id" class="Person"
+      fetch="join" not-found="exception" cascade="all"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Address class
+  NHibernate mapping file
+-->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+  namespace="Realty.Models" assembly="Realty" default-lazy="false">
+  <class name="Address" table="dbo.addresses">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <property name="StreetAddress1" column="street_address_1" type="String"/>
+    <property name="StreetAddress2" column="street_address_2" type="String"/>
+    <property name="City" column="city" type="String"/>
+    <property name="State" column="us_state" type="String"/>
+    <property name="Region" column="region" type="String"/>
+    <property name="PostalCode" column="postal_code" type="String"/>
+    <property name="CountryCode" column="country_code" type="String"/>
+<!--
+    <many-to-one name="Country" column="country_code" class="Country" property-ref="Code"
+      fetch="join" not-found="exception" cascade="none"/>
+-->
+  </class>
+</hibernate-mapping>

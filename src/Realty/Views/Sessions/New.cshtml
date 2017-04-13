@@ -1,0 +1,29 @@
+﻿@model User
+
+<div class="text-center middle-box loginscreen animated fadeIn">
+  <div>
+    <div>
+      <h3 class="logo-name text-center">R</h3>
+    </div>
+    <h3>Welcome to Realty</h3>
+    <p>
+      Real estate management system
+    </p>
+
+    <form id="session" asp-action="Create" class="m-t" role="form" method="post">
+      <div class="form-group">
+        <input asp-for="Login" placeholder="User login" maxlength="64" autofocus class="form-control"/>
+      </div>
+
+      <div class="form-group">
+        <input asp-for="Password" type="password" placeholder="Password" maxlength="16" class="form-control"/>
+      </div>
+
+      <button type="submit" class="btn btn-primary block full-width mb">Login</button>
+    </form>
+
+    <p class="m-t">
+      <small>Maria Romanova &copy; 2016</small>
+    </p>
+  </div>
+</div>

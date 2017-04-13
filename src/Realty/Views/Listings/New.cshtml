@@ -1,0 +1,77 @@
+﻿@model Listing
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <span class="text-muted small pull-right">Created on: <i class="fa fa-clock-o"></i> @Model.CreatedAt.ToString()</span>
+          <h4>New listing <small> property info, asking price, and status</small></h4>
+        </div>
+
+        <div class="ibox-content">
+          <form id="listing" asp-action="Create" role="form" method="post" asp-route-propertyId="@Model.Property.Id">
+            <div class="row">
+
+              <div class="col-sm-6">
+                <p>
+                  <img src="~/images/@Model.Property.Photo" class="img-responsive img-shadow" style="background-color: lightgray"/>
+                </p>
+
+                <table class="table table-condensed">
+                  <tr>
+                    <td class="font-bold">Property ID:</td>
+                    <td class="font-bold">@Model.Property.Id</td>
+                  </tr>
+                  <tr>
+                    <td>Property type:</td>
+                    <td>@Model.Property.PropertyType.Name</td>
+                  </tr>
+                  <tr>
+                    <td>Property style:</td>
+                    <td>@Model.Property.PropertyStyle.Name</td>
+                  </tr>
+                  <tr>
+                    <td>Property address:</td>
+                    <td>@Model.Property.Address.FullAddress</td>
+                  </tr>
+                </table>
+              </div>
+
+              <div class="col-sm-6">
+                <h2 class="font-bold m-b-xs" style="color: darkred">@Model.Status</h2>
+                Status changed: @Model.StatusChangedAt.ToString()
+                <br>
+                <br>
+                <div class="form-group">
+                  <label asp-for="Purpose">Purpose</label>
+                  <select asp-for="Purpose" class="form-control" style="max-width: 250px;">
+                    <option disabled selected value="">&lt;Select purpose&gt;</option>
+                    <option value="0">For Sale</option>
+                    <option value="1">For Rent</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label asp-for="AskingPrice">Asking Price, $</label>
+                  <input asp-for="AskingPrice" type="text" maxlength="20" class="form-control" style="max-width: 180px; color: green">
+                </div>
+                <div class="form-group">
+                  <label asp-for="Comments">Comments</label>
+                  <textarea asp-for="Comments" class="form-control" rows="4"></textarea>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Save Listing Info</button>
+              &nbsp;
+              <a class="btn btn-white" asp-controller="Properties" asp-action="Index">Cancel</a>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Offer class
+  NHibernate mapping file
+-->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+  namespace="Realty.Models" assembly="Realty" default-lazy="false">
+  <class name="Offer" table="dbo.offers">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <property name="Status" column="offer_status" type="OfferStatus"/>
+    <property name="OfferPrice" column="offer_price" type="Decimal"/>
+    <property name="CreatedAt" column="created_at" type="DateTime"/>
+    <property name="ExpiredAt" column="expired_at" type="DateTime"/>
+    <property name="CompletedAt" column="completed_at" type="DateTime"/>
+
+    <many-to-one name="Listing" column="listing_id" class="Listing"
+      fetch="join" not-found="exception" cascade="none"/>
+    <many-to-one name="Buyer" column="buyer_id" class="User"
+      fetch="join" not-found="exception" cascade="none"/>
+  </class>
+</hibernate-mapping>

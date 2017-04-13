@@ -1,0 +1,120 @@
+﻿@model User
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Edit user <small> user account, personal info, contacts, and address</small></h5>
+          <div class="ibox-tools">
+            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-wrench"></i></a>
+            <a class="close-link"><i class="fa fa-times"></i></a>
+          </div>
+        </div>
+        <div class="ibox-content">
+
+          <form id="edit_user" asp-action="Update" asp-route-userId="@Model.Id" role="form" method="post">
+            <div class="row">
+              <div class="col-sm-6">
+
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <input asp-for="Login" placeholder="User login" maxlength="20" autofocus class="form-control" style="max-width: 300px;" readonly>
+                    </div>
+                    <div class="form-group">
+                      <input type="password" placeholder="Password" maxlength="16" class="form-control" style="max-width: 300px;"
+                             id="Password" name="Password" value="@Model.Password" readonly>
+                    </div>
+                    <div class="checkbox">
+                      <input type="checkbox" asp-for="IsActive"/>
+                      <label asp-for="IsActive">Active</label>
+                    </div>
+                    <div class="checkbox">
+                      <input type="checkbox" asp-for="IsRealtor"/>
+                      <label asp-for="IsRealtor">Realtor</label>
+                    </div>
+                    <div class="checkbox checkbox-danger">
+                      <input type="checkbox" asp-for="IsAdmin"/>
+                      <label asp-for="IsAdmin">Administrator</label>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <img src="@($"/images/{Model.Person.Photo}")" class="img-shadow"/>
+                  </div>
+                </div>
+
+                <hr>
+                <div class="form-group">
+                  <input asp-for="Person.FirstName" placeholder="First name" maxlength="32" class="form-control">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.MiddleName" placeholder="Middle name" maxlength="32" class="form-control">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.LastName" placeholder="Last name" maxlength="32" class="form-control">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.DateOfBirth" type="date" class="form-control" style="max-width: 160px;">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.TaxId" placeholder="Tax ID" class="form-control" maxlength="64">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.PhotoId" placeholder="Photo ID" class="form-control" maxlength="64">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.Email" type="email" placeholder="Email address" maxlength="64" class="form-control">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input asp-for="Person.Company" placeholder="Company name" class="form-control" maxlength="64">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.Occupation" placeholder="Occupation" class="form-control" maxlength="64">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.Phone" placeholder="Phone number" class="form-control" maxlength="32" style="max-width: 160px;">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.Fax" placeholder="Fax number" class="form-control" maxlength="32" style="max-width: 160px;">
+                </div>
+                <div class="form-group" style="margin-top: 30px">
+                  <input asp-for="Person.Address.StreetAddress1" placeholder="Address line 1" class="form-control" maxlength="64">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.Address.StreetAddress2" placeholder="Address line 2" class="form-control" maxlength="64">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.Address.City" placeholder="City" class="form-control" maxlength="64">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.Address.State" placeholder="State" class="form-control" maxlength="2" style="max-width: 60px;">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.Address.Region" placeholder="Region (for non US address)" class="form-control" maxlength="64">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.Address.PostalCode" placeholder="Postal code" class="form-control" maxlength="16" style="max-width: 160px;">
+                </div>
+                <div class="form-group">
+                  <input asp-for="Person.Address.CountryCode" placeholder="Country" class="form-control" maxlength="2" style="max-width: 160px;">
+                </div>
+
+              </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Save User Info</button>
+            &nbsp;
+            <a class="btn btn-white" asp-action="Index">Cancel</a>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

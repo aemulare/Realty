@@ -1,0 +1,177 @@
+﻿@model Offer
+
+<div class="animated fadeIn">
+  <div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+      <h2>Listing Details</h2>
+      <ol class="breadcrumb">
+        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="active"><strong>Listing Details</strong></li>
+      </ol>
+    </div>
+    <div class="col-lg-2"></div>
+  </div>
+
+  @{ var listing = Model.Listing; }
+
+  <div class="wrapper wrapper-content">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox product-detail">
+
+          <div class="ibox-content">
+            <div class="row">
+              <div class="col-md-6">
+                <p>
+                  <img src="~/images/@listing.Property.Photo" class="img-responsive img-shadow" style="background-color: lightgray;"/>
+                </p>
+                <hr/>
+                <h4>@listing.Realtor.Person.ReversedFullName &nbsp;&nbsp;<i class="fa fa-phone"></i> @listing.Realtor.Person.Phone</h4>
+                <button class="btn btn-white btn-sm"><i class="fa fa-envelope"></i> Contact with realtor </button>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <h2 class="font-bold m-b-xs">
+                      @(listing.Purpose == ListingPurpose.FOR_SALE ? "For Sale" : "For Rent" )
+                    </h2>
+                  </div>
+                  <div class="col-md-6 text-center">
+                    <h2 class="">Status: <span class="text-capitalize font-bold"> @listing.Status</span></h2>
+                  </div>
+                  <div class="col-md-3">
+                    <h2 class="pull-right font-bold">@($"ID# {listing.Id}")</h2>
+                  </div>
+                </div>
+
+                <a href="@listing.Property.PropertyAddressUrl" target="_blank"><i class="fa fa-map-marker"></i></a>
+                @listing.Property.Address.FullAddress
+                <div class="m-t-md">
+                  <h2 class="product-main-price" style="color: green;">
+                    @listing.AskingPrice.Value.ToString("C")
+                  </h2>
+                </div>
+                <hr>
+
+                <h4>Property description</h4>
+                <div class="small text-muted">
+                  @listing.Comments
+                </div>
+                <br/>
+
+                <table class="table table-condensed">
+                  <tr>
+                    <td>Year built:</td>
+                    <td>@listing.Property.YearBuilt</td>
+                    <td><i class="fa fa-bed"></i>&nbsp;&nbsp;Bedrooms:</td>
+                    <td>@listing.Property.BedroomsCount</td>
+                  </tr>
+                  <tr>
+                    <td>Property type:</td>
+                    <td>@listing.Property.PropertyType.Name</td>
+                    <td><i class="fa fa-bath"></i>&nbsp;&nbsp;Bathrooms:</td>
+                    <td>@listing.Property.BathroomsCount</td>
+                  </tr>
+                  <tr>
+                    <td>Property style:</td>
+                    <td>@listing.Property.PropertyStyle.Name</td>
+                    <td><i class="fa fa-car"></i>&nbsp;&nbsp;Parking Spaces:</td>
+                    <td>@listing.Property.ParkingSpacesCount</td>
+                  </tr>
+                  <tr>
+                    <td>Floor Footage, sq.ft.</td>
+                    <td>@listing.Property.FloorFootage</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Lot Footage, sq.ft.</td>
+                    <td>@listing.Property.LotFootage</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </table>
+                <br>
+                <table class="table table-condensed">
+                  <tr>
+                    <td>Basement</td>
+                    <td>@listing.Property.BasementType.Name</td>
+                    <td>Floors Count</td>
+                    <td>@listing.Property.FloorsCount</td>
+                  </tr>
+                  <tr>
+                    <td>Roof</td>
+                    <td>@listing.Property.RoofType.Name</td>
+                    <td>Parking</td>
+                    <td>@listing.Property.ParkingType.Name</td>
+                  </tr>
+                  <tr>
+                    <td>Heating</td>
+                    <td>@listing.Property.HeatingType.Name</td>
+                    <td>Air Conditioning</td>
+                    <td>@listing.Property.AirConditioningType.Name</td>
+                  </tr>
+                  <tr>
+                    <td>Appliances</td>
+                    <td colspan="3">@listing.Property.Appliances</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Amenities</td>
+                    <td colspan="3">@listing.Property.Amenities</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <hr/>
+
+            @{ var canMakeOffer = !listing.IsCompleted && !listing.IsCancelled; }
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="">
+                  <form id="offer" asp-controller="Offers" asp-action="Create" asp-route-listingId="@listing.Id"
+                    class="form-horizontal text-right" method="post" role="form">
+                    <table class="pull-right">
+                      <tr>
+                        @if(canMakeOffer)
+                        {
+                          <td class="p-sm"><label asp-for="OfferPrice" class="control-label">Ready to make an offer? $</label></td>
+                          <td class="p-sm"><input asp-for="OfferPrice" type="text" style="max-width: 200px;" class="form-control"/></td>
+                          <td><button type="submit" class="btn btn-primary"><i class="fa fa-cart-plus"></i> Make Offer</button></td>
+                        }
+                        else
+                        {
+                          <td></td>
+                          <td></td>
+                          <td><a class="btn btn-primary btn-sm disabled"><i class="fa fa-cart-plus"></i> Make Offer</a></td>
+                        }
+
+                        <td>&nbsp;&nbsp;<a asp-controller="Listings" asp-action="Index" class="btn btn-default">Cancel</a></td>
+                      </tr>
+                    </table>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="ibox-footer">
+            <span class="pull-right">
+              Created at <i class="fa fa-clock-o"></i> @listing.CreatedAt.ToString()
+            </span>
+            &nbsp;
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

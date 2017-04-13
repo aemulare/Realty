@@ -1,0 +1,181 @@
+﻿@model Property
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <span class="text-muted small pull-right">Created on: <i class="fa fa-clock-o"></i> @Model.CreatedAt.ToString()</span>
+          <h4>Owner: @Model.Owner.Person.FullName</h4>
+        </div>
+        <div class="ibox-content">
+
+          <form id="property" asp-action="Create" role="form" method="post" asp-route-userId="@Model.Owner.Id">
+            <div class="row">
+              <div class="col-sm-6">
+                <p>
+                  <img src="~/images/@Model.Photo" class="img-responsive" style="background-color: lightgray"/>
+                </p>
+                <div class="form-group">
+                <!--
+                <form method="post" enctype="multipart/form-data">
+                  <label class="btn btn-success btn-sm btn-file">
+                    Choose File <input type="file" name="photo" style="display: none"/>
+                  </label>
+                </form>
+                  -->
+                  <a class="btn btn-primary btn-sm" href="#">Upload image</a>
+                  <a class="btn btn-default btn-sm" href="#">Clear</a>
+                </div>
+
+                <div class="form-group">
+                  <label asp-for="Address.StreetAddress1">Address line 1</label>
+                  <input asp-for="Address.StreetAddress1" class="form-control" maxlength="64">
+                </div>
+                <div class="form-group">
+                  <label asp-for="Address.StreetAddress2">Address line 2</label>
+                  <input asp-for="Address.StreetAddress2" class="form-control" maxlength="64">
+                </div>
+                <div class="form-group">
+                  <label asp-for="Address.City">City</label>
+                  <input asp-for="Address.City" class="form-control" maxlength="64">
+                </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label asp-for="Address.State">State</label>
+                      <input asp-for="Address.State" class="form-control" maxlength="2" style="max-width: 60px;">
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="Address.PostalCode">Postal code</label>
+                      <input asp-for="Address.PostalCode" class="form-control" maxlength="16" style="max-width: 160px;">
+                    </div>
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <label asp-for="Address.Region">Region (for not US address)</label>
+                      <input asp-for="Address.Region" class="form-control" maxlength="64">
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="Address.CountryCode">Country</label>
+                      <input asp-for="Address.CountryCode" class="form-control" maxlength="2" style="max-width: 200px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                      <label asp-for="PropertyType.Id">Property type</label>
+                      <select asp-for="PropertyType.Id" asp-items="ViewBag.PropertyTypes" class="form-control" style="max-width: 250px;">
+                        <option disabled selected value="">&lt;Select property type&gt;</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="PropertyStyle.Id">Property style</label>
+                      <select asp-for="PropertyStyle.Id" asp-items="ViewBag.PropertyStyles" class="form-control" style="max-width: 250px">
+                        <option disabled selected value="">&lt;Select property style&gt;</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="BasementType.Id">Basement</label>
+                      <select asp-for="BasementType.Id" asp-items="ViewBag.BasementTypes" class="form-control" style="max-width: 250px">
+                        <option disabled selected value="">&lt;Select basement type&gt;</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="RoofType.Id">Roof</label>
+                      <select asp-for="RoofType.Id" asp-items="ViewBag.RoofTypes" class="form-control" style="max-width: 250px">
+                        <option disabled selected value="">&lt;Select roof type&gt;</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="ParkingType.Id">Parking</label>
+                      <select asp-for="ParkingType.Id" asp-items="ViewBag.ParkingTypes" class="form-control" style="max-width: 250px">
+                        <option disabled selected value="">&lt;Select parking type&gt;</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="HeatingType.Id">Heating</label>
+                      <select asp-for="HeatingType.Id" asp-items="ViewBag.HeatingTypes" class="form-control" style="max-width: 250px">
+                        <option disabled selected value="">&lt;Select heating type&gt;</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="AirConditioningType.Id">Air conditioning</label>
+                      <select asp-for="AirConditioningType.Id" asp-items="ViewBag.AirConditioningTypes" class="form-control" style="max-width: 250px">
+                        <option disabled selected value="">&lt;Select air conditioning type&gt;</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="PropertyAddressUrl">Property address URL</label>
+                      <input asp-for="PropertyAddressUrl" type="url" maxlength="256" class="form-control">
+                    </div>
+                  </div>
+
+                  <div class="col-sm-5">
+                    <div class="form-group">
+                      <label asp-for="YearBuilt">Year built</label>
+                      <input asp-for="YearBuilt" type="text" maxlength="4" class="form-control" style="max-width: 120px">
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="FloorFootage">Floor footage <small> sq. ft.</small></label>
+                      <input asp-for="FloorFootage" type="text" maxlength="10" class="form-control" style="max-width: 100px">
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="LotFootage">Lot footage <small> sq. ft.</small></label>
+                      <input asp-for="LotFootage" type="text" maxlength="10" class="form-control" style="max-width: 100px">
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="FloorsCount">Floors count</label>
+                      <input asp-for="FloorsCount" type="text" maxlength="2" class="form-control" style="max-width: 100px">
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="BedroomsCount">Bedrooms count</label>
+                      <input asp-for="BedroomsCount" type="text" maxlength="2" class="form-control" style="max-width: 100px">
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="BathroomsCount">Bathrooms count</label>
+                      <input asp-for="BathroomsCount" type="text" maxlength="4" class="form-control" style="max-width: 100px">
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="ParkingSpacesCount">Parking spaces count</label>
+                      <input asp-for="ParkingSpacesCount" type="text" maxlength="4" class="form-control" style="max-width: 100px">
+                    </div>
+                    <div class="form-group">
+                      <label asp-for="MaxHoa">Max HOA <small> $</small></label>
+                      <input asp-for="MaxHoa" type="text" maxlength="10" class="form-control" style="max-width: 100px">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label asp-for="Appliances">Appliances</label>
+                  <textarea asp-for="Appliances" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                  <label asp-for="Amenities">Amenities</label>
+                  <textarea asp-for="Amenities" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                  <label asp-for="Comments">Comments</label>
+                  <textarea asp-for="Comments" class="form-control"></textarea>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Save Property Info</button>
+              &nbsp;
+              <a class="btn btn-white" asp-controller="Users" asp-action="Index">Cancel</a>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

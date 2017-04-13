@@ -1,0 +1,157 @@
+﻿@model IEnumerable<User>
+@{
+  var isRealtor = ViewBag.CurrentUser.IsRealtor;
+  var isAdmin = ViewBag.CurrentUser.IsAdmin;
+}
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="ibox">
+        <div class="ibox-content">
+          <span class="text-muted small pull-right">Last modification: <i class="fa fa-clock-o"></i> 2:10 pm - 12/02/2016</span>
+          <h2>Users</h2>
+          <p>Contains the list of all users in the system.</p>
+
+          @if(isAdmin)
+          {
+            <a class="btn btn-success" asp-action="New">Register new user</a>
+          }
+
+          <div class="clients-list">
+            <ul class="nav nav-tabs">
+              @if(isAdmin || isRealtor)
+              {
+                <span class="pull-right small text-muted">@($"Totally registered users: {Model.Count()}")</span>
+              }
+              <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i> Clients</a></li>
+              <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-briefcase"></i> Realtors</a></li>
+              @if(isRealtor || isAdmin)
+              {
+                <li><a data-toggle="tab" href="#tab-3"><i class="fa fa-user-secret"></i> Administrators</a></li>
+              }
+            </ul>
+
+            <div class="tab-content">
+              <div id="tab-1" class="tab-pane active">
+                <div class="full-height-scroll">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                      <tbody>
+                        @foreach(var user in ViewBag.Clients)
+                        {
+                          <tr>
+                            <td class="client-avatar"><img alt="image" src=@($"/images/{user.Person.Photo}")></td>
+                            <td><a data-toggle="tab" href="#" class="client-link">@user.Person.FullName</a></td>
+                            <td>@user.Login</td>
+                            <td>@user.Person.Address.Country.Name</td>
+                            <td><i class="fa fa-phone"></i>&nbsp; @user.Person.Phone</td>
+                            <td><i class="fa fa-envelope"></i>&nbsp; @user.Person.Email</td>
+
+                            @if(isRealtor || isAdmin)
+                            {
+                              <td>
+                                <form asp-action="Destroy" method="post" asp-route-userId="@user.Id">
+                                  <a class="btn btn-success btn-xs" asp-controller="Properties" asp-action="New" asp-route-userId="@user.Id">
+                                    New Property
+                                  </a>
+                                  @if(isAdmin)
+                                  {
+                                    <a class="btn btn-info btn-xs" asp-action="Edit" asp-route-userId="@user.Id">Edit</a>
+                                    <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                  }
+                                </form>
+                              </td>
+                            }
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div id="tab-2" class="tab-pane">
+                <div class="full-height-scroll">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                      <tbody>
+                      @foreach(var user in ViewBag.Realtors)
+                      {
+                        <tr>
+                          <td class="client-avatar"><img alt="image" src=@($"/images/{user.Person.Photo}")></td>
+                          <td><a data-toggle="tab" href="#" class="client-link">@user.Person.FullName</a></td>
+                          <td>@user.Login</td>
+                          <td>@user.Person.Address.Country.Name</td>
+                          <td><i class="fa fa-phone"></i>&nbsp; @user.Person.Phone</td>
+                          <td><i class="fa fa-envelope"></i>&nbsp; @user.Person.Email</td>
+
+                          @if(isRealtor || isAdmin)
+                          {
+                            <td>
+                              <form asp-action="Destroy" method="post" asp-route-userId="@user.Id">
+                                <a class="btn btn-success btn-xs" asp-controller="Properties" asp-action="New" asp-route-userId="@user.Id">
+                                  New Property
+                                </a>
+                                @if(isAdmin)
+                                {
+                                  <a class="btn btn-info btn-xs" asp-action="Edit" asp-route-userId="@user.Id">Edit</a>
+                                  <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                }
+                              </form>
+                            </td>
+                          }
+
+                        </tr>
+                      }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div id="tab-3" class="tab-pane">
+                <div class="full-height-scroll">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                      <tbody>
+                        @foreach(var user in ViewBag.Admins)
+                        {
+                          <tr>
+                            <td class="client-avatar"><img alt="image" src=@($"/images/{user.Person.Photo}")></td>
+                            <td><a data-toggle="tab" href="#" class="client-link">@user.Person.FullName</a></td>
+                            <td>@user.Login</td>
+                            <td>@user.Person.Address.Country.Name</td>
+                            <td><i class="fa fa-phone"></i>&nbsp; @user.Person.Phone</td>
+                            <td><i class="fa fa-envelope"></i>&nbsp; @user.Person.Email</td>
+                            @if(isRealtor || isAdmin)
+                            {
+                              <td>
+                                <form asp-action="Destroy" method="post" asp-route-userId="@user.Id">
+                                  <a class="btn btn-success btn-xs" asp-controller="Properties" asp-action="New" asp-route-userId="@user.Id">
+                                    New Property
+                                  </a>
+                                  @if(isAdmin)
+                                  {
+                                    <a class="btn btn-info btn-xs" asp-action="Edit" asp-route-userId="@user.Id">Edit</a>
+                                    <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                  }
+                                </form>
+                              </td>
+                            }
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

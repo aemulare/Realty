@@ -1,0 +1,86 @@
+﻿@model Sale
+
+<div class="animated fadeIn">
+  <div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+      <h2>View Sale</h2>
+      <ol class="breadcrumb">
+        <li><a asp-controller="Home" asp-action="Index">Offers</a></li>
+        <li class="active"><strong>View Sale</strong></li>
+      </ol>
+    </div>
+    <div class="col-lg-2"></div>
+  </div>
+
+
+  <div class="wrapper wrapper-content">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="ibox">
+          <div class="ibox-content">
+            <div class="row font-bold">
+              <div class="col-md-4">
+                <span style="font-size: 11pt;">Property ID# &nbsp;@Model.Offer.Listing.Property.Id</span>
+              </div>
+              <div class="col-md-4">
+                <span style="font-size: 11pt;">Listing ID# &nbsp;@Model.Offer.Listing.Id</span>
+              </div>
+              <div class="col-md-4">
+                <span style="font-size: 11pt;">Offer ID# &nbsp;@Model.Offer.Id</span>
+              </div>
+            </div>
+            <hr />
+            <span style="font-size: 11pt;">Property Type: &nbsp;@Model.Offer.Listing.Property.PropertyType.Name</span>
+            <br /><br />
+            <span style="font-size: 11pt;">Property Style: &nbsp;@Model.Offer.Listing.Property.PropertyStyle.Name</span>
+            <br /><br />
+            <span style="font-size: 11pt;">Address: &nbsp;@Model.Offer.Listing.Property.Address.FullAddress</span>
+
+            <div style="margin-bottom: 45px;">
+              @{
+                 var buyer = @Model.Offer.Buyer;
+                 var seller = @Model.Offer.Listing.Property.Owner;
+                 var realtor = @Model.Offer.Listing.Realtor;
+              }
+
+              <hr />
+              <h4 class="pull-right"><i class="fa fa-phone"></i> @buyer.Person.Phone</h4>
+              <span style="font-size: 11pt;">Buyer ID# @buyer.Id: &nbsp;@buyer.Person.ToString()</span>
+              <hr />
+              <h4 class="pull-right"><i class="fa fa-phone"></i> @seller.Person.Phone</h4>
+              <span style="font-size: 11pt;">Seller ID# @seller.Id: &nbsp;@seller.Person.ToString()</span>
+              <hr />
+              <h4 class="pull-right"><i class="fa fa-phone"></i> @realtor.Person.Phone</h4>
+              <span style="font-size: 11pt;">Realtor ID# @realtor.Id: &nbsp;@realtor.Person.ReversedFullName</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-4">
+        <div class="ibox">
+          <div class="ibox-content">
+            <span>Purchase Price</span>
+            <h2 class="text-navy">@Model.Offer.OfferPrice.Value.ToString("C")</h2>
+            <hr/>
+            <span>Realtor Fee</span>
+            <h2>@Model.RealtorFee.ToString("C")</h2>
+            <hr />
+            <span>Total</span>
+            @{ var total = Model.Offer.OfferPrice.Value + Model.RealtorFee; }
+            <h2 class="font-bold text-danger">@total.ToString("C")</h2>
+            <hr />
+            <span>Closing date</span>
+            <h3>@Model.SoldAt.ToString()</h3>
+            <hr />
+
+            <a class="btn btn-white" asp-action="Index">Close</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

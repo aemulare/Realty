@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Class HeatingType
+  NHibernate mapping file
+-->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+  namespace="Realty.Models" assembly="Realty" default-lazy="false">
+  <class name="HeatingType" table="ref.heating_types" mutable="false">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+    <property name="Name" column="name" type="String"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Listing class
+  NHibernate mapping file
+-->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+  namespace="Realty.Models" assembly="Realty" default-lazy="false">
+  <class name="Listing" table="dbo.listings">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <property name="Purpose" column="purpose" type="ListingPurpose"/>
+    <property name="Status" column="listing_status" type="ListingStatus"/>
+    <property name="AskingPrice" column="asking_price" type="Decimal"/>
+    <property name="StatusChangedAt" column="status_changed_at" type="DateTime"/>
+    <property name="CreatedAt" column="created_at" type="DateTime"/>
+    <property name="CompletedAt" column="completed_at" type="DateTime"/>
+    <property name="Comments" column="comments" type="String"/>
+
+    <many-to-one name="Property" column="property_id" class="Property"
+      fetch="join" not-found="exception" cascade="none"/>
+    <many-to-one name="Realtor" column="realtor_id" class="User"
+      fetch="join" not-found="exception" cascade="none"/>
+
+    <bag name="Offers" table="dbo.offers" cascade="none" inverse="true">
+      <key column="listing_id"/>
+      <one-to-many class="Offer"/>
+    </bag>
+
+  </class>
+</hibernate-mapping>

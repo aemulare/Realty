@@ -1,0 +1,215 @@
+﻿@model ListingsViewModel
+
+<div class="wrapper wrapper-content animated fadeIn">
+  <div class="ibox-content m-b-sm border-bottom">
+      <h2>Listings</h2>
+      <ol class="breadcrumb">
+        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="active"><strong>Listings</strong></li>
+      </ol>
+  </div>
+
+  <div class="ibox-content m-b-sm border-bottom">
+    <form asp-action="FilteredIndex" method="post" role="form">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label asp-for="PropertyTypeId" class="control-label">Property type</label>
+            <select asp-for="PropertyTypeId" asp-items="ViewBag.PropertyTypes" class="form-control">
+              <option selected value="">&lt;select&gt;</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label asp-for="PropertyStyleId" class="control-label">Property style</label>
+            <select asp-for="PropertyStyleId" asp-items="ViewBag.PropertyStyles" class="form-control">
+              <option selected value="">&lt;select&gt;</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label asp-for="MinYearBuilt" class="control-label">Min Year built</label>
+            <input asp-for="MinYearBuilt" type="text" class="form-control" maxlength="4" style="max-width: 100px;">
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label class="control-label" asp-for="MinFloorFootage">Min Floor footage</label>
+            <input type="text" asp-for="MinFloorFootage" class="form-control" max="5">
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <button type="submit" class="btn btn-success" style="margin-top: 22px; width: 140px;">Apply Filter</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label asp-for="CountryId" class="control-label">Country</label>
+            <select asp-for="CountryId" asp-items="ViewBag.Countries" class="form-control">
+              <option selected value="">&lt;select&gt;</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label asp-for="City" class="control-label">City</label>
+            <input asp-for="City" class="form-control" maxlength="64" />
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label class="control-label" asp-for="MinPrice">Min Price, $</label>
+            <input type="text" asp-for="MinPrice" class="form-control" max="12">
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label class="control-label" asp-for="MaxPrice">Max Price, $</label>
+            <input type="text" asp-for="MaxPrice" class="form-control" max="12">
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+    @foreach(var listing in Model.Listings)
+    {
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="ibox product-detail">
+
+            <div class="ibox-content">
+              <div class="row">
+                <div class="col-md-6">
+                  <p>
+                    <img src="~/images/@listing.Property.Photo" class="img-responsive img-shadow" style="background-color: lightgray;"/>
+                  </p>
+                  <hr/>
+                  <h4>@listing.Realtor.Person.ReversedFullName &nbsp;&nbsp;<i class="fa fa-phone"></i> @listing.Realtor.Person.Phone</h4>
+                  <button class="btn btn-white btn-sm"><i class="fa fa-envelope"></i> Contact with realtor </button>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h2 class="font-bold m-b-xs">
+                        @(listing.Purpose == ListingPurpose.FOR_SALE ? "For Sale" : "For Rent" )
+                      </h2>
+                    </div>
+                    <div class="col-md-6 text-center">
+                      <h2 class="">Status: <span class="text-capitalize font-bold"> @listing.Status</span></h2>
+                    </div>
+                    <div class="col-md-3">
+                      <h2 class="pull-right font-bold">@($"ID# {listing.Id}")</h2>
+                    </div>
+                  </div>
+
+                  <a href="@listing.Property.PropertyAddressUrl" target="_blank"><i class="fa fa-map-marker"></i></a>
+                  @listing.Property.Address.FullAddress
+                  <div class="m-t-md">
+                    <h2 class="product-main-price" style="color: green;">
+                      @listing.AskingPrice.Value.ToString("C")
+                    </h2>
+                  </div>
+                  <hr>
+
+                  <h4>Property description</h4>
+                  <div class="small text-muted">
+                    @listing.Comments
+                  </div>
+                  <br/>
+
+                  <table class="table table-condensed">
+                    <tr>
+                      <td>Year built:</td>
+                      <td>@listing.Property.YearBuilt</td>
+                      <td><i class="fa fa-bed"></i>&nbsp;&nbsp;Bedrooms:</td>
+                      <td>@listing.Property.BedroomsCount</td>
+                    </tr>
+                    <tr>
+                      <td>Property type:</td>
+                      <td>@listing.Property.PropertyType.Name</td>
+                      <td><i class="fa fa-bath"></i>&nbsp;&nbsp;Bathrooms:</td>
+                      <td>@listing.Property.BathroomsCount</td>
+                    </tr>
+                    <tr>
+                      <td>Property style:</td>
+                      <td>@listing.Property.PropertyStyle.Name</td>
+                      <td><i class="fa fa-car"></i>&nbsp;&nbsp;Parking Spaces:</td>
+                      <td>@listing.Property.ParkingSpacesCount</td>
+                    </tr>
+                    <tr>
+                      <td>Floor Footage</td>
+                      <td>@listing.Property.FloorFootage</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Lot Footage</td>
+                      <td>@listing.Property.LotFootage</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+
+              @{ var canMakeOffer = !listing.IsCompleted && !listing.IsCancelled; }
+
+              <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-9">
+                  <form id="offer" asp-controller="Offers" asp-action="CreateOffer" asp-route-listingId="@listing.Id"
+                        class="form-horizontal text-right" method="post" role="form">
+                    <table class="pull-right">
+                      <tr>
+                        @if(canMakeOffer)
+                        {
+                          <td class="p-sm"><label for="offerPrice" class="control-label">Ready to make an offer? $</label></td>
+                          <td class="p-sm"><input id="offerPrice" name="offerPrice" type="text" style="max-width: 200px;" class="form-control"/></td>
+                          <td><button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-cart-plus"></i> Make Offer</button></td>
+                        }
+                        else
+                        {
+                          <td></td>
+                          <td></td>
+                          <td><a class="btn btn-primary btn-sm disabled"><i class="fa fa-cart-plus"></i> Make Offer</a></td>
+                        }
+                        <td>&nbsp;&nbsp;
+                          <a asp-controller="Offers" asp-action="New" asp-route-listingId="@listing.Id"
+                              class="btn btn-success btn-sm"><i class="fa fa-edit"></i>More Details</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+            <div class="ibox-footer">
+              <span class="pull-right">
+                Created at <i class="fa fa-clock-o"></i> @listing.CreatedAt.ToString()
+              </span>
+              &nbsp;
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    }
+</div>

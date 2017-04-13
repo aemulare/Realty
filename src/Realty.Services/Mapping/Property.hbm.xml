@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Property class
+  NHibernate mapping file
+-->
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+  namespace="Realty.Models" assembly="Realty" default-lazy="false">
+  <class name="Property" table="dbo.properties">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <property name="YearBuilt" column="year_built" type="Int32"/>
+    <property name="CreatedAt" column="created_at" type="DateTime"/>
+    <property name="PropertyAddressUrl" column="address_map_url" type="String"/>
+    <property name="FloorFootage" column="floor_footage" type="Decimal"/>
+    <property name="LotFootage" column="lot_footage" type="Decimal"/>
+    <property name="FloorsCount" column="floors_count" type="Byte"/>
+    <property name="BedroomsCount" column="bedrooms_count" type="Byte"/>
+    <property name="BathroomsCount" column="bathrooms_count" type="Decimal"/>
+    <property name="ParkingSpacesCount" column="parking_spaces_count" type="Int32"/>
+    <property name="MaxHoa" column="max_hoa" type="Decimal"/>
+    <property name="Appliances" column="appliances" type="String"/>
+    <property name="Amenities" column="Amenities" type="String"/>
+    <property name="Comments" column="comments" type="String"/>
+    <property name="Photo" column="photo" type="String"/>
+
+    <many-to-one name="Owner" column="owner_id" class="User"
+      fetch="join" not-found="exception" cascade="none"/>
+    <many-to-one name="Address" column="address_id" class="Address"
+      fetch="join" not-found="exception" cascade="all"/>
+    <many-to-one name="PropertyType" column="property_type_id" class="PropertyType"
+      fetch="join" not-found="exception" cascade="none"/>
+    <many-to-one name="PropertyStyle" column="property_style_id" class="PropertyStyle"
+      fetch="join" not-found="exception" cascade="none"/>
+    <many-to-one name="BasementType" column="basement_type_id" class="BasementType"
+      fetch="join" not-found="exception" cascade="none"/>
+    <many-to-one name="RoofType" column="roof_type_id" class="RoofType"
+      fetch="join" not-found="exception" cascade="none"/>
+    <many-to-one name="ParkingType" column="parking_type_id" class="ParkingType"
+      fetch="join" not-found="exception" cascade="none"/>
+    <many-to-one name="HeatingType" column="heating_type_id" class="HeatingType"
+      fetch="join" not-found="exception" cascade="none"/>
+    <many-to-one name="AirConditioningType" column="air_conditioning_type_id" class="AirConditioningType"
+      fetch="join" not-found="exception" cascade="none"/>
+  </class>
+</hibernate-mapping>
