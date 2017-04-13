@@ -1,0 +1,3 @@
+*.cs linguist-language=C#
+*.sql linguist-language=SQL
+src/Realty/wwwroot/* linguist-vendored
